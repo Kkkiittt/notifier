@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GameManager\GameManager.Api\GameManager.Api.csproj" />
     <ProjectReference Include="..\ProfileManager\ProfileManager.Api\ProfileManager.Api.csproj" />
-    <ProjectReference Include="..\UserManager\UserManager.Api\UserManager.Api.csproj" />
+    <ProjectReference Include="..\UserManager\UserManager.Api\AdminManager.Api.csproj" />
   </ItemGroup>
 
 </Project>

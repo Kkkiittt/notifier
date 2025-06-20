@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UserManager.Application\UserManager.Application.csproj" />
+    <ProjectReference Include="..\UserManager.Domain\AdminManager.Domain.csproj" />
   </ItemGroup>
 
 </Project>
