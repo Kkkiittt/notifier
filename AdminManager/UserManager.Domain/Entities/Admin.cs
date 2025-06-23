@@ -10,11 +10,11 @@ public class Admin
 	public DateTime CreatedAt { get; set; }
 	public DateTime? UpdatedAt { get; set; }
 
-	public Admin(string name, string email, string passswordHash)
+	public Admin(string name, string email, string passwordHash)
 	{
 		Name = name;
 		Email = email;
-		PasswordHash = passswordHash;
+		PasswordHash = passwordHash;
 		CreatedAt = DateTime.UtcNow;
 		SuperAdmin = false;
 	}
