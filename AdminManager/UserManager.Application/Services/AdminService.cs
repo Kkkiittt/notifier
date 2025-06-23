@@ -110,6 +110,7 @@ public class AdminService : IAdminService
 			throw new Exception("No permission");
 
 		admin.Name = dto.Name;
+		admin.UpdatedAt= DateTime.UtcNow;
 		admin.Email = dto.Email;
 		if(dto.Password is not null)
 		{
