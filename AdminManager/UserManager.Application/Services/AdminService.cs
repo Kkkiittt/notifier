@@ -30,7 +30,7 @@ public class AdminService : IAdminService
 		if(admin is null)
 			throw new Exception("Admin not found");
 
-		if(_userId.Id != admin.Id && _userId.Role != Roles.Owner)
+		if(_userId.Id != admin.Id && _userId.Role != Roles.SuperAdmin)
 			throw new Exception("No permission");
 
 		_adminRepo.DeleteAdmin(admin);
@@ -44,19 +44,7 @@ public class AdminService : IAdminService
 		if(admin is null)
 			throw new Exception("Admin not found");
 
-		if(_userId.Id != admin.Id && _userId.Role != Roles.Owner)
-			throw new Exception("No permission");
-
-		return (AdminGetDto)admin;
-	}
-
-	public async Task<AdminGetDto> GetAdminAsync(string email)
-	{
-		Admin? admin = await _adminRepo.GetAdminAsync(email);
-		if(admin is null)
-			throw new Exception("Admin not found");
-
-		if(_userId.Id != admin.Id && _userId.Role != Roles.Owner)
+		if(_userId.Id != admin.Id && _userId.Role != Roles.SuperAdmin)
 			throw new Exception("No permission");
 
 		return (AdminGetDto)admin;
@@ -64,7 +52,7 @@ public class AdminService : IAdminService
 
 	public async Task<IEnumerable<AdminGetDto>> GetAdminsAsync(int page, int pageSize)
 	{
-		if(_userId.Role != Roles.Owner)
+		if(_userId.Role != Roles.SuperAdmin)
 			throw new Exception("No permission");
 
 		if(page < 1 || pageSize < 1)
@@ -79,9 +67,19 @@ public class AdminService : IAdminService
 		return admins.Select(a => (AdminGetDto)a);
 	}
 
+	public async Task<AdminUpdateDto> GetTemplateAsync()
+	{
+		Admin? admin = await _adminRepo.GetAdminAsync(_userId.Id);
+		if(admin is null)
+			throw new Exception("Admin not found");
+
+		return new AdminUpdateDto(admin.Id, admin.Name, admin.Email);
+	}
+
 	public async Task<string> LoginAsync(AdminLoginDto dto)
 	{
 		Admin? admin = await _adminRepo.GetAdminAsync(dto.Email);
+
 		if(admin is null)
 			throw new Exception("Invalid credentials");
 
@@ -93,7 +91,7 @@ public class AdminService : IAdminService
 
 	public Task<bool> RegisterAsync(AdminCreateDto dto)
 	{
-		if(_userId.Role != Roles.Owner)
+		if(_userId.Role != Roles.SuperAdmin)
 			throw new Exception("No permission");
 
 		Admin admin = new Admin(dto.Name, dto.Email, Hasher.Hash(dto.Password));
@@ -108,7 +106,7 @@ public class AdminService : IAdminService
 		if(admin is null)
 			throw new Exception("Admin not found");
 
-		if(_userId.Id != admin.Id && _userId.Role != Roles.Owner)
+		if(_userId.Id != admin.Id && _userId.Role != Roles.SuperAdmin)
 			throw new Exception("No permission");
 
 		admin.Name = dto.Name;

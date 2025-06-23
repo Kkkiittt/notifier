@@ -10,9 +10,9 @@ public interface IAdminService
 	public Task<bool> RegisterAsync(AdminCreateDto dto);
 
 	public Task<bool> UpdateAsync(AdminUpdateDto dto);
+	public Task<AdminUpdateDto> GetTemplateAsync();
 	public Task<bool> DeleteAsync(long id);
 
 	public Task<AdminGetDto> GetAdminAsync(long id);
-	public Task<AdminGetDto> GetAdminAsync(string email);
 	public Task<IEnumerable<AdminGetDto>> GetAdminsAsync(int page, int pageSize);
 }

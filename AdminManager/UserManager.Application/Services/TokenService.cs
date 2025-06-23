@@ -6,6 +6,8 @@ using AdminManager.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
+using Notifier.Shared.Enums;
+
 using UserManager.Domain.Entities;
 
 namespace AdminManager.Application.Services;
@@ -24,7 +26,7 @@ public class TokenService : ITokenService
 		Claim[] claims =
 		{
 			new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
-			new Claim(ClaimTypes.Role,admin.SuperAdmin?"SuperAdmin":"Admin"),
+			new Claim(ClaimTypes.Role,(admin.SuperAdmin?Roles.SuperAdmin:Roles.Admin).ToString()),
 			new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString()),
 		};
 

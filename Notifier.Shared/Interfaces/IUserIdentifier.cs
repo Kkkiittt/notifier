@@ -10,5 +10,5 @@ public interface IUserIdentifier
 
 	public bool IsAdmin { get; }
 
-	public DateTime IssuedAt { get; set; }
+	public DateTime IssuedAt { get; }
 }

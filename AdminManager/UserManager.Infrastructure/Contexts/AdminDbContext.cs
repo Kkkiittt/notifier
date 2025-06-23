@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AdminManager.Infrastructure.Configurations;
+
+using Microsoft.EntityFrameworkCore;
 
 using UserManager.Domain.Entities;
 
@@ -12,7 +14,7 @@ public class AdminDbContext : DbContext
 
 	public AdminDbContext(DbContextOptions<AdminDbContext> options) : base(options)
 	{
-		_adminConfig = null;
+		_adminConfig = new AdminConfiguration();
 	}
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

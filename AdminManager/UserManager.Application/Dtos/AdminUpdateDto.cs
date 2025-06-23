@@ -7,8 +7,9 @@ public class AdminUpdateDto
 	public string Email { get; set; }
 	public string? Password { get; set; }
 
-	public AdminUpdateDto(string name, string email, string password)
+	public AdminUpdateDto(long id, string name, string email, string? password = null)
 	{
+		Id = id;
 		Name = name;
 		Email = email;
 		Password = password;

@@ -11,14 +11,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AdminManager\UserManager.Api\AdminManager.Api.csproj" />
     <ProjectReference Include="..\GameManager\GameManager.Api\GameManager.Api.csproj" />
     <ProjectReference Include="..\ProfileManager\ProfileManager.Api\ProfileManager.Api.csproj" />
-    <ProjectReference Include="..\UserManager\UserManager.Api\AdminManager.Api.csproj" />
   </ItemGroup>
 
 </Project>
