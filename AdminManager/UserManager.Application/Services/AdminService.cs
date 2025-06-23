@@ -112,7 +112,11 @@ public class AdminService : IAdminService
 		admin.Name = dto.Name;
 		admin.Email = dto.Email;
 		if(dto.Password is not null)
+		{
+			if(dto.Password.Length < 6 || dto.Password.Length > 20)
+				throw new Exception("Invalid password length");
 			admin.PasswordHash = Hasher.Hash(dto.Password);
+		}
 
 		_adminRepo.UpdateAdmin(admin);
 		return await _adminRepo.SaveChangesAsync();
