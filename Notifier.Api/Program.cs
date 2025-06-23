@@ -1,7 +1,4 @@
-using AdminManager.Infrastructure.Contexts;
 using AdminManager.Infrastructure.Extensions;
-
-using Microsoft.EntityFrameworkCore;
 
 using Notifier.Shared.Extensions;
 using Notifier.Shared.Interfaces;
@@ -20,9 +17,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-var dbcontext = app.Services.CreateScope().ServiceProvider.GetRequiredService<AdminDbContext>();
-Console.WriteLine(dbcontext.Admins.Count());
 // Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment())
 {

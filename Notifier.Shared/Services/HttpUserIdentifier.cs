@@ -21,7 +21,7 @@ public class HttpUserIdentifier : IUserIdentifier
 	{
 		get
 		{
-			return long.Parse(_accessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("Invalid token"));
+			return long.Parse(_accessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("Invalid token"));
 		}
 	}
 
@@ -29,7 +29,7 @@ public class HttpUserIdentifier : IUserIdentifier
 	{
 		get
 		{
-			return Enum.Parse<Roles>(_accessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Invalid token"));
+			return Enum.Parse<Roles>(_accessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new Exception("Invalid token"));
 		}
 	}
 
@@ -45,7 +45,7 @@ public class HttpUserIdentifier : IUserIdentifier
 	{
 		get
 		{
-			return DateTimeOffset.FromUnixTimeSeconds(long.Parse(_accessor.HttpContext.User.FindFirst(JwtRegisteredClaimNames.Iat)?.Value ?? throw new Exception("Invalid token"))).UtcDateTime;
+			return DateTimeOffset.FromUnixTimeSeconds(long.Parse(_accessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Iat)?.Value ?? throw new Exception("Invalid token"))).UtcDateTime;
 		}
 	}
 }
