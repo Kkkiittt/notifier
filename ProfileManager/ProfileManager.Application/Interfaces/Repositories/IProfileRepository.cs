@@ -7,7 +7,11 @@ namespace ProfileManager.Application.Interfaces.Repositories;
 
 public interface IProfileRepository : IRepository<Profile>
 {
-	public Task<Profile> GetAsync(string email);
+	public bool IncludeTagWeights { set; }
+
+	public bool IncludeTagValues { set; }
+
+	public Task<Profile?> GetAsync(string email);
 
 	public Task<IEnumerable<Profile>> GetFilteredAsync(params Expression<Func<Profile, bool>>[] predicates);
 }
