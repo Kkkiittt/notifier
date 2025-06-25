@@ -1,4 +1,5 @@
 ﻿using ProfileManager.Application.Dtos.TagDtos;
+using ProfileManager.Domain.Entities;
 using ProfileManager.Domain.Enums;
 
 namespace ProfileManager.Application.Dtos.ProfileDtos;
@@ -7,9 +8,20 @@ public class ProfileFullGetDto : ProfileShortGetDto
 {
 	public List<(TagGetDto tag, double weight)> WeightedTags { get; set; }
 
-	public ProfileFullGetDto(long id, string name, string email, Gender gender, DateTime birthdate, DateTime lastOnline, DateTime created, DateTime? updated = null, List<(TagGetDto tag, double weight)>? tags = null) : base(id, name, email, gender, birthdate, lastOnline, created, updated)
+	public static explicit operator ProfileFullGetDto(Profile profile)
 	{
-		WeightedTags = tags ?? new List<(TagGetDto tag, double weight)>();
+		return new ProfileFullGetDto()
+		{
+			Id = profile.Id,
+			Name = profile.Name,
+			Email = profile.Email,
+			Gender = profile.Gender,
+			BirthDate = profile.BirthDate,
+			LastOnline = profile.LastOnline,
+			Created = profile.CreatedAt,
+			Updated = profile.UpdatedAt,
+			WeightedTags = profile.ProfileTags.Select(x => ((TagGetDto)x.Tag, x.Weight)).ToList()
+		};
 	}
 
 	public ProfileFullGetDto() { WeightedTags = new List<(TagGetDto tag, double weight)>(); }
