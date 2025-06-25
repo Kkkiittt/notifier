@@ -6,6 +6,7 @@ public class Profile : AuditableEntity
 {
 	public string Name { get; set; }
 	public string Email { get; set; }
+	public bool EmailConfirmed { get; set; }
 	public string? DeviceToken { get; set; }
 	public string PasswordHash { get; set; }
 
@@ -18,7 +19,7 @@ public class Profile : AuditableEntity
 	public bool ReceiveEmails { get; set; }
 	public bool ReceivePushNotifications { get; set; }
 
-	public List<ProfileTag> ProfileTags { get; set; }
+	public List<ProfileTag> ProfileTags { get; set; } = null!;
 
 	public Profile(string name, string email, string passwordHash, Gender gender, DateTime birthDate, List<Platform>? platforms = null)
 	{
@@ -32,5 +33,6 @@ public class Profile : AuditableEntity
 		ReceiveAd = true;
 		ReceiveEmails = true;
 		ReceivePushNotifications = false;
+		EmailConfirmed = false;
 	}
 }

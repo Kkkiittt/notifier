@@ -18,6 +18,8 @@ builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 builder.Services.AddScoped<IUserIdentifier, HttpUserIdentifier>();
 builder.Services.AddAdminManagerModule(builder.Configuration);
 
+builder.Services.AddDbContext<ProfileDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProfileDb")));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
