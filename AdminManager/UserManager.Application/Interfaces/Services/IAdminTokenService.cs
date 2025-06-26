@@ -2,7 +2,7 @@
 
 namespace AdminManager.Application.Interfaces.Services;
 
-public interface ITokenService
+public interface IAdminTokenService
 {
 	public string CreateToken(Admin admin);
 }

@@ -10,6 +10,8 @@ public interface IProfileService
 
 	public Task<bool> UpdateProfileAsync(ProfileUpdateDto updateProfileDto);
 
+	public Task<ProfileUpdateDto> GetTemplateAsync();
+
 	public Task<bool> DeleteProfileAsync(long id);
 
 	public Task<ProfileShortGetDto> GetShortProfileAsync(long id);

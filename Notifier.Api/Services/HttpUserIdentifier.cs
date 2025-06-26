@@ -1,12 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-using Microsoft.AspNetCore.Http;
-
 using Notifier.Shared.Enums;
 using Notifier.Shared.Interfaces;
 
-namespace Notifier.Shared.Services;
+namespace Notifier.Api.Services;
 
 public class HttpUserIdentifier : IUserIdentifier
 {

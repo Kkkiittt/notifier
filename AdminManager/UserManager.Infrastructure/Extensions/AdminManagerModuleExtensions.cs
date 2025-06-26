@@ -20,7 +20,7 @@ public static class AdminManagerModuleExtensions
 		{
 			opt.UseSqlServer(config.GetConnectionString("AdminDb"));
 		});
-		services.AddScoped<ITokenService, TokenService>();
+		services.AddScoped<IAdminTokenService, AdminTokenService>();
 		return services;
 	}
 }

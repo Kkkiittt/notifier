@@ -2,9 +2,9 @@ using AdminManager.Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 
+using Notifier.Api.Services;
 using Notifier.Shared.Extensions;
 using Notifier.Shared.Interfaces;
-using Notifier.Shared.Services;
 
 using ProfileManager.Application.Interfaces.Services;
 using ProfileManager.Infrastructure.Contexts;

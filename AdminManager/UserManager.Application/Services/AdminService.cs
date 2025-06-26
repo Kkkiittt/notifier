@@ -14,10 +14,10 @@ namespace AdminManager.Application.Services;
 public class AdminService : IAdminService
 {
 	private readonly IAdminRepository _adminRepo;
-	private readonly ITokenService _token;
+	private readonly IAdminTokenService _token;
 	private readonly IUserIdentifier _userId;
 
-	public AdminService(IAdminRepository adminRepo, ITokenService token, IUserIdentifier userId)
+	public AdminService(IAdminRepository adminRepo, IAdminTokenService token, IUserIdentifier userId)
 	{
 		_adminRepo = adminRepo;
 		_token = token;

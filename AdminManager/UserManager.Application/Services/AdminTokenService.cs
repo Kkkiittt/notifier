@@ -12,11 +12,11 @@ using UserManager.Domain.Entities;
 
 namespace AdminManager.Application.Services;
 
-public class TokenService : ITokenService
+public class AdminTokenService : IAdminTokenService
 {
 	private readonly IConfiguration _config;
 
-	public TokenService(IConfiguration config)
+	public AdminTokenService(IConfiguration config)
 	{
 		_config = config.GetSection("JWT");
 	}

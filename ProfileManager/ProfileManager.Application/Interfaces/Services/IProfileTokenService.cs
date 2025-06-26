@@ -2,7 +2,7 @@
 
 namespace ProfileManager.Application.Interfaces.Services;
 
-public interface ITokenService
+public interface IProfileTokenService
 {
 	public string CreateToken(Profile profile);
 }

@@ -15,11 +15,11 @@ public class ProfileService : IProfileService
 {
 	private readonly IProfileRepository _profileRepo;
 	private readonly IUserIdentifier _userId;
-	private readonly ITokenService _tokenServ;
+	private readonly IProfileTokenService _tokenServ;
 	private readonly IEmailService _emailServ;
 	private readonly IMemoryCache _cache;
 
-	public ProfileService(IProfileRepository profileRepo, IUserIdentifier userId, ITokenService tokenServ, IMemoryCache cache, IEmailService emailServ)
+	public ProfileService(IProfileRepository profileRepo, IUserIdentifier userId, IProfileTokenService tokenServ, IMemoryCache cache, IEmailService emailServ)
 	{
 		_profileRepo = profileRepo;
 		_userId = userId;
@@ -62,12 +62,16 @@ public class ProfileService : IProfileService
 		return await _profileRepo.SaveChangesAsync();
 	}
 
-	public Task<bool> CreateProfileAsync(ProfileCreateDto dto)
+	public async Task<bool> CreateProfileAsync(ProfileCreateDto dto)
 	{
+		Profile? emailProfile = await _profileRepo.GetAsync(dto.Email);
+		if(emailProfile is not null)
+			throw new Exception("Email is already in use");
+
 		Profile profile = new Profile(dto.Name, dto.Email, Hasher.Hash(dto.Password), dto.Gender, dto.Birthdate, dto.Platforms);
 
 		_profileRepo.Create(profile);
-		return _profileRepo.SaveChangesAsync();
+		return await _profileRepo.SaveChangesAsync();
 	}
 
 	public async Task<bool> DeleteProfileAsync(long id)
@@ -100,6 +104,9 @@ public class ProfileService : IProfileService
 		if(profile is null)
 			throw new Exception("Profile not found");
 
+		if(profile.Id != _userId.Id && !_userId.IsAdmin)
+			throw new Exception("You can't get this profile");
+
 		return (ProfileShortGetDto)profile;
 	}
 
@@ -117,6 +124,17 @@ public class ProfileService : IProfileService
 		return profiles.Select(p => (ProfileShortGetDto)p).ToList();
 	}
 
+	public async Task<ProfileUpdateDto> GetTemplateAsync()
+	{
+		Profile? profile = await _profileRepo.GetAsync(_userId.Id);
+		if(profile is null)
+			throw new Exception("Profile not found");
+
+		ProfileUpdateDto dto = new ProfileUpdateDto(profile.Id, profile.Name, profile.Email, profile.Gender, profile.BirthDate, profile.Platforms);
+
+		return dto;
+	}
+
 	public async Task<string> LoginAsync(ProfileLoginDto loginDto)
 	{
 		Profile? profile = await _profileRepo.GetAsync(loginDto.Email);
@@ -125,6 +143,9 @@ public class ProfileService : IProfileService
 
 		if(!Hasher.Verify(loginDto.Password, profile.PasswordHash))
 			throw new Exception("Invalid credentials");
+
+		if(!profile.EmailConfirmed)
+			throw new Exception("Inactive account");
 
 		return _tokenServ.CreateToken(profile);
 	}
@@ -166,11 +187,15 @@ public class ProfileService : IProfileService
 		return true;
 	}
 
-	public Task<bool> UpdateProfileAsync(ProfileUpdateDto updateProfileDto)
+	public async Task<bool> UpdateProfileAsync(ProfileUpdateDto updateProfileDto)
 	{
-		Profile? profile = _profileRepo.GetAsync(updateProfileDto.Id).Result;
+		Profile? profile = await _profileRepo.GetAsync(updateProfileDto.Id);
+		Profile? emailProfile = await _profileRepo.GetAsync(updateProfileDto.Email);
 		if(profile is null)
 			throw new Exception("Profile not found");
+
+		if(emailProfile is not null && emailProfile.Id != profile.Id)
+			throw new Exception("Email is already in use");
 
 		if(profile.Id != _userId.Id)
 			throw new Exception("You can't update this profile");
@@ -180,9 +205,9 @@ public class ProfileService : IProfileService
 		profile.Gender = updateProfileDto.Gender;
 		profile.BirthDate = updateProfileDto.Birthdate;
 		profile.Platforms = updateProfileDto.Platforms;
-		profile.UpdatedAt = DateTime.UtcNow;	
+		profile.UpdatedAt = DateTime.UtcNow;
 
 		_profileRepo.Update(profile);
-		return _profileRepo.SaveChangesAsync();
+		return await _profileRepo.SaveChangesAsync();
 	}
 }
