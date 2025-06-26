@@ -76,12 +76,12 @@ public class ProfileService : IProfileService
 
 	public async Task<bool> DeleteProfileAsync(long id)
 	{
+		if(id != _userId.Id && !_userId.IsAdmin)
+			throw new Exception("You can't delete this profile");
+
 		Profile? profile = await _profileRepo.GetAsync(id);
 		if(profile is null)
 			throw new Exception("Profile not found");
-
-		if(profile.Id != _userId.Id && !_userId.IsAdmin)
-			throw new Exception("You can't delete this profile");
 
 		_profileRepo.Delete(profile);
 		return await _profileRepo.SaveChangesAsync();
@@ -100,12 +100,12 @@ public class ProfileService : IProfileService
 
 	public async Task<ProfileShortGetDto> GetShortProfileAsync(long id)
 	{
+		if(id != _userId.Id && !_userId.IsAdmin)
+			throw new Exception("You can't get this profile");
+
 		Profile? profile = await _profileRepo.GetAsync(id);
 		if(profile is null)
 			throw new Exception("Profile not found");
-
-		if(profile.Id != _userId.Id && !_userId.IsAdmin)
-			throw new Exception("You can't get this profile");
 
 		return (ProfileShortGetDto)profile;
 	}
@@ -161,8 +161,10 @@ public class ProfileService : IProfileService
 
 		int code = Random.Shared.Next(100000, 999999);
 
+		Console.WriteLine(code);
+
 		_cache.Set(email, code, TimeSpan.FromMinutes(5));
-		await _emailServ.SendEmailAsync(email, "Email confirmation", $"Your confirmation code for notifier is <strong>{code}<strong>.");
+		await _emailServ.SendEmailAsync(email, "Email confirmation", $"Your confirmation code for Notifier is <strong>{code}</strong>.");
 
 		return true;
 	}
@@ -182,15 +184,15 @@ public class ProfileService : IProfileService
 		if(!await _profileRepo.SaveChangesAsync())
 			return false;
 
-		await _emailServ.SendEmailAsync(email, "Password reset", $"Your new password for notifier is <strong>{password}<strong>.<br>Please change it as soon as possible.");
+		await _emailServ.SendEmailAsync(email, "Password reset", $"Your new password for Notifier is <strong>{password}</strong>.<br>Please change it as soon as possible.");
 
 		return true;
 	}
 
-	public async Task<bool> UpdateProfileAsync(ProfileUpdateDto updateProfileDto)
+	public async Task<bool> UpdateProfileAsync(ProfileUpdateDto dto)
 	{
-		Profile? profile = await _profileRepo.GetAsync(updateProfileDto.Id);
-		Profile? emailProfile = await _profileRepo.GetAsync(updateProfileDto.Email);
+		Profile? profile = await _profileRepo.GetAsync(dto.Id);
+		Profile? emailProfile = await _profileRepo.GetAsync(dto.Email);
 		if(profile is null)
 			throw new Exception("Profile not found");
 
@@ -200,11 +202,12 @@ public class ProfileService : IProfileService
 		if(profile.Id != _userId.Id)
 			throw new Exception("You can't update this profile");
 
-		profile.Name = updateProfileDto.Name;
-		profile.Email = updateProfileDto.Email;
-		profile.Gender = updateProfileDto.Gender;
-		profile.BirthDate = updateProfileDto.Birthdate;
-		profile.Platforms = updateProfileDto.Platforms;
+		profile.Name = dto.Name;
+		profile.EmailConfirmed = dto.Email == profile.Email;
+		profile.Email = dto.Email;
+		profile.Gender = dto.Gender;
+		profile.BirthDate = dto.Birthdate;
+		profile.Platforms = dto.Platforms;
 		profile.UpdatedAt = DateTime.UtcNow;
 
 		_profileRepo.Update(profile);

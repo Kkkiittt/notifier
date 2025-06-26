@@ -16,7 +16,7 @@ public class AdminConfiguration : IEntityTypeConfiguration<Admin>
 	public void Configure(EntityTypeBuilder<Admin> builder)
 	{
 		builder.HasData(
-			new Admin("Owner", "khamidov357@gmail.com", "$2a$11$ScBPsrMo1F5G5V.6T/DxtuaeRlerp.2HEe69nSWYWOTDYfShKSDiS")
+			new Admin("Owner", "khamidov357@gmail.com", "$2a$11$X46NFh.5VRZzPMljoZwPN.RtbxoopbjysG.LOIFkslMBA4Xu2J50m")
 			{
 				SuperAdmin = true,
 				CreatedAt = DateTime.MinValue,

@@ -21,83 +21,131 @@ public class ProfileController : ControllerBase
 	[AllowAnonymous]
 	public async Task<IActionResult> LoginAsync(ProfileLoginDto dto)
 	{
-		return Ok(await _profServ.LoginAsync(dto));
+		try
+		{
+			return Ok(await _profServ.LoginAsync(dto));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpPost("register")]
 	[AllowAnonymous]
 	public async Task<IActionResult> RegisterAsync(ProfileCreateDto dto)
 	{
-		return Ok(await _profServ.CreateProfileAsync(dto));
+		try
+		{
+			return Ok(await _profServ.CreateProfileAsync(dto));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpGet("update")]
 	[Authorize(Roles = "User")]
 	public async Task<IActionResult> GetTemplateAsync()
 	{
-		return Ok(await _profServ.GetTemplateAsync());
+		try
+		{
+			return Ok(await _profServ.GetTemplateAsync());
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpPut("update")]
 	[Authorize(Roles = "User")]
 	public async Task<IActionResult> UpdateProfileAsync(ProfileUpdateDto dto)
 	{
-		return Ok(await _profServ.UpdateProfileAsync(dto));
+		try
+		{
+			return Ok(await _profServ.UpdateProfileAsync(dto));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpDelete("{id}")]
 	[Authorize]
 	public async Task<IActionResult> DeleteProfileAsync(long id)
 	{
-		return Ok(await _profServ.DeleteProfileAsync(id));
+		try
+		{
+			return Ok(await _profServ.DeleteProfileAsync(id));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpGet("{id}")]
 	[Authorize]
 	public async Task<IActionResult> GetProfileAsync(long id)
 	{
-		return Ok(await _profServ.GetShortProfileAsync(id));
+		try
+		{
+			return Ok(await _profServ.GetShortProfileAsync(id));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpGet("{id}/full")]
 	[Authorize(Roles = "SuperAdmin, Admin")]
 	public async Task<IActionResult> GetFullProfileAsync(long id)
 	{
-		return Ok(await _profServ.GetFullProfileAsync(id));
+		try
+		{
+			return Ok(await _profServ.GetFullProfileAsync(id));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpGet]
 	[Authorize(Roles = "SuperAdmin, Admin")]
-	public async Task<IActionResult> GetAllProfilesAsync(int page, int pageSize)
+	public async Task<IActionResult> GetAllProfilesAsync(int page=1, int pageSize=50)
 	{
-		return Ok(await _profServ.GetShortProfilesAsync(page, pageSize));
+		try
+		{
+			return Ok(await _profServ.GetShortProfilesAsync(page, pageSize));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpPut("password")]
 	[AllowAnonymous]
 	public async Task<IActionResult> ChangePasswordAsync(PasswordChangeDto dto)
 	{
-		return Ok(await _profServ.ChangePasswordAsync(dto));
+		try
+		{
+			return Ok(await _profServ.ChangePasswordAsync(dto));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpPut("reset/{email}")]
 	[AllowAnonymous]
 	public async Task<IActionResult> ResetPasswordAsync(string email)
 	{
-		return Ok(await _profServ.ResetPasswordAsync(email));
+		try
+		{
+			return Ok(await _profServ.ResetPasswordAsync(email));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpPatch("confirm")]
 	[AllowAnonymous]
 	public async Task<IActionResult> ConfirmEmailAsync(EmailConfirmDto dto)
 	{
-		return Ok(await _profServ.ConfirmEmailAsync(dto));
+		try
+		{
+			return Ok(await _profServ.ConfirmEmailAsync(dto));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 
 	[HttpGet("confirm/{email}")]
 	[AllowAnonymous]
 	public async Task<IActionResult> RequestConfirmEmailAsync(string email)
 	{
-		return Ok(await _profServ.RequestEmailConfirmationAsync(email));
+		try
+		{
+			return Ok(await _profServ.RequestEmailConfirmationAsync(email));
+		}
+		catch(Exception ex) { return BadRequest(ex.Message); }
 	}
 }
