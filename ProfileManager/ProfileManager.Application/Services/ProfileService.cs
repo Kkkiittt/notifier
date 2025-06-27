@@ -130,7 +130,7 @@ public class ProfileService : IProfileService
 		if(profile is null)
 			throw new Exception("Profile not found");
 
-		ProfileUpdateDto dto = new ProfileUpdateDto(profile.Id, profile.Name, profile.Email, profile.Gender, profile.BirthDate, profile.Platforms);
+		ProfileUpdateDto dto = new ProfileUpdateDto(profile.Id, profile.Name, profile.Email, profile.Gender, profile.BirthDate, profile.ReceiveAd, profile.ReceiveEmails, profile.Platforms);
 
 		return dto;
 	}
@@ -209,6 +209,8 @@ public class ProfileService : IProfileService
 		profile.BirthDate = dto.Birthdate;
 		profile.Platforms = dto.Platforms;
 		profile.UpdatedAt = DateTime.UtcNow;
+		profile.ReceiveEmails = dto.ReceiveEmails;
+		profile.ReceiveAd = dto.ReceiveAd;
 
 		_profileRepo.Update(profile);
 		return await _profileRepo.SaveChangesAsync();

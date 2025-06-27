@@ -18,13 +18,20 @@ public class ProfileUpdateDto
 	public DateTime Birthdate { get; set; }
 	public List<Platform> Platforms { get; set; }
 
-	public ProfileUpdateDto(long id, string name, string email, Gender gender, DateTime birthdate, List<Platform>? platforms = null)
+	[Required]
+	public bool ReceiveAd { get; set; }
+	[Required]
+	public bool ReceiveEmails { get; set; }
+
+	public ProfileUpdateDto(long id, string name, string email, Gender gender, DateTime birthdate, bool receiveAd, bool receiveEmails, List<Platform>? platforms = null)
 	{
 		Id = id;
 		Name = name;
 		Email = email;
 		Gender = gender;
 		Birthdate = birthdate;
+		ReceiveAd = receiveAd;
+		ReceiveEmails = receiveEmails;
 		Platforms = platforms ?? [];
 	}
 }
