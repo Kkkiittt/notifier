@@ -2,7 +2,7 @@
 
 namespace ProfileManager.Application.Dtos.TagDtos;
 
-public class TagGetDto
+public class TagFullGetDto
 {
 	public long Id { get; set; }
 	public string Name { get; set; } = string.Empty;
@@ -10,9 +10,9 @@ public class TagGetDto
 	public DateTime Created { get; set; }
 	public DateTime? Updated { get; set; }
 
-	public static explicit operator TagGetDto(Tag tag)
+	public static explicit operator TagFullGetDto(Tag tag)
 	{
-		return new TagGetDto()
+		return new TagFullGetDto()
 		{
 			Id = tag.Id,
 			Name = tag.Name,

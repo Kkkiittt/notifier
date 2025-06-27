@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json;
+
 using Microsoft.Extensions.Caching.Memory;
 
 using Notifier.Shared.Helpers;
@@ -91,7 +93,6 @@ public class ProfileService : IProfileService
 	{
 		_profileRepo.IncludeTagValues = true;
 		Profile? profile = await _profileRepo.GetAsync(id);
-		_profileRepo.IncludeTagValues = false;
 
 		if(profile is null)
 			throw new Exception("Profile not found");

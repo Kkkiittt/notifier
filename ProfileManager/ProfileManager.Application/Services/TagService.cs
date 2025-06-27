@@ -35,16 +35,16 @@ public class TagService : ITagService
 		return await _tagRepository.SaveChangesAsync();
 	}
 
-	public async Task<TagGetDto> GetTagAsync(long id)
+	public async Task<TagFullGetDto> GetTagAsync(long id)
 	{
 		Tag? tag = await _tagRepository.GetAsync(id);
 		if(tag is null)
 			throw new Exception("Tag not found");
 
-		return (TagGetDto)tag;
+		return (TagFullGetDto)tag;
 	}
 
-	public async Task<List<TagGetDto>> GetTagsAsync(int page, int pageSize)
+	public async Task<List<TagFullGetDto>> GetTagsAsync(int page, int pageSize)
 	{
 		if(page < 1 || pageSize < 1)
 			throw new Exception("Invalid page or pageSize");
@@ -55,7 +55,7 @@ public class TagService : ITagService
 		int skip = (page - 1) * pageSize;
 		var tags = await _tagRepository.GetManyAsync(skip, pageSize);
 
-		return tags.Select(t => (TagGetDto)t).ToList();
+		return tags.Select(t => (TagFullGetDto)t).ToList();
 	}
 
 	public async Task<bool> UpdateTagAsync(TagUpdateDto dto)

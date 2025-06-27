@@ -26,6 +26,8 @@ builder.Services.AddProfileManagerModule(builder.Configuration);
 
 builder.Services.AddDbContext<ProfileDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProfileDb")));
 
+//builder.Services.AddHostedService<KafkaTagUpdateService>();
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddEndpointsApiExplorer();

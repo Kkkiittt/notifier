@@ -10,7 +10,7 @@ public interface ITagService
 
 	public Task<bool> DeleteTagAsync(long id);
 
-	public Task<TagGetDto> GetTagAsync(long id);
+	public Task<TagFullGetDto> GetTagAsync(long id);
 
-	public Task<List<TagGetDto>> GetTagsAsync(int page, int pageSize);
+	public Task<List<TagFullGetDto>> GetTagsAsync(int page, int pageSize);
 }

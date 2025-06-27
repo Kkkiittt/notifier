@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProfileManager.Application.Dtos;
+namespace ProfileManager.Application.Dtos.ProfileTagDtos;
 
-public class TagLinkDto
+public class ProfileTagCreateDto
 {
 	[Required]
 	public long TagId { get; set; }
@@ -12,7 +12,7 @@ public class TagLinkDto
 	[Required]
 	public double Weight { get; set; }
 
-	public TagLinkDto(long tagId, long profileId, double weight)
+	public ProfileTagCreateDto(long tagId, long profileId, double weight)
 	{
 		TagId = tagId;
 		ProfileId = profileId;
